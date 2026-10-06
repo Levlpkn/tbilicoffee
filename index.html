@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <meta name="theme-color" content="#090909">
+  <title>ТБИЛИ Coffee</title>
+  <script src="https://telegram.org/js/telegram-web-app.js?63"></script>
+  <style>
+    :root{
+      --bg:#090909; --card:#121212; --card2:#171717; --text:#f5f5f5;
+      --muted:#9b9b9b; --red:#e21b2d; --red2:#ff3347; --line:#242424;
+      --tg-safe-top:env(safe-area-inset-top); --tg-safe-bottom:env(safe-area-inset-bottom);
+    }
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+    html,body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+    body{min-height:100vh;padding-bottom:calc(82px + var(--tg-safe-bottom));}
+    button{font:inherit;color:inherit;border:0}
+    .app{max-width:760px;margin:auto;padding:calc(14px + var(--tg-safe-top)) 16px 0}
+    .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+    .brand{font-weight:900;letter-spacing:.08em;font-size:22px}
+    .brand span{color:var(--red)}
+    .sub{font-size:11px;color:var(--muted);letter-spacing:.16em;text-transform:uppercase;margin-top:3px}
+    .cart-btn{position:relative;background:#171717;border:1px solid #2b2b2b;border-radius:14px;width:46px;height:46px}
+    .badge{position:absolute;right:-4px;top:-4px;background:var(--red);font-size:11px;font-weight:800;min-width:20px;height:20px;border-radius:10px;display:grid;place-items:center;padding:0 5px}
+    .hero{position:relative;overflow:hidden;border:1px solid #2a2a2a;border-radius:24px;background:radial-gradient(circle at 80% 15%,#7b0c18 0,#26060b 30%,#101010 65%);padding:24px 20px;min-height:235px;display:flex;align-items:flex-end;margin-bottom:18px}
+    .hero:after{content:"";position:absolute;width:190px;height:190px;border-radius:50%;right:-50px;top:-55px;background:rgba(226,27,45,.18);filter:blur(4px)}
+    .hero-content{position:relative;z-index:1;max-width:80%}
+    .eyebrow{font-size:11px;letter-spacing:.18em;color:#ff6a77;text-transform:uppercase;font-weight:800}
+    h1{font-size:34px;line-height:1.02;margin:8px 0 10px;letter-spacing:-.04em}
+    .hero p{color:#c4c4c4;margin:0;line-height:1.45;font-size:14px}
+    .season{display:inline-flex;margin-top:15px;background:var(--red);padding:9px 12px;border-radius:12px;font-size:12px;font-weight:800}
+    .section-title{display:flex;align-items:end;justify-content:space-between;margin:24px 0 11px}
+    .section-title h2{font-size:20px;margin:0;letter-spacing:-.02em}
+    .section-title span{font-size:11px;color:var(--muted)}
+    .cats{display:flex;gap:8px;overflow-x:auto;padding:1px 1px 4px;scrollbar-width:none}
+    .cats::-webkit-scrollbar{display:none}
+    .cat{white-space:nowrap;background:#141414;border:1px solid #282828;border-radius:999px;padding:10px 14px;font-size:13px;color:#cfcfcf}
+    .cat.active{background:var(--red);border-color:var(--red);color:white;font-weight:800}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    .product{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;cursor:pointer}
+    .pic{height:142px;background:linear-gradient(135deg,#171717,#0e0e0e);display:grid;place-items:center;position:relative}
+    .pic.red{background:radial-gradient(circle at 50% 30%,#d31c31 0,#4b0710 38%,#111 78%)}
+    .pic.purple{background:radial-gradient(circle at 50% 30%,#7447a7 0,#241231 42%,#111 78%)}
+    .pic.gold{background:radial-gradient(circle at 50% 30%,#a56c28 0,#3d2108 40%,#111 78%)}
+    .pic.black{background:radial-gradient(circle at 50% 35%,#333 0,#0b0b0b 58%)}
+    .emoji{font-size:62px;filter:drop-shadow(0 10px 16px rgba(0,0,0,.45))}
+    .tag{position:absolute;left:9px;top:9px;background:rgba(0,0,0,.65);border:1px solid rgba(255,255,255,.12);padding:5px 8px;border-radius:8px;font-size:9px;font-weight:800;letter-spacing:.08em}
+    .pbody{padding:12px}
+    .pname{font-size:15px;font-weight:850;margin-bottom:5px}
+    .desc{font-size:11px;color:var(--muted);line-height:1.35;min-height:30px}
+    .bottom{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
+    .price{font-size:15px;font-weight:900}
+    .plus{width:31px;height:31px;border-radius:10px;background:#242424;display:grid;place-items:center;font-size:20px}
+    .featured{display:flex;gap:12px;overflow-x:auto;scrollbar-width:none}
+    .featured::-webkit-scrollbar{display:none}
+    .feat{min-width:245px;background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+    .feat .pic{height:150px}
+    .feat .pbody{padding:12px}
+    .secret{margin-top:24px;border:1px dashed #4a171d;background:linear-gradient(135deg,#17090b,#0e0e0e);border-radius:20px;padding:18px}
+    .secret h3{margin:0 0 6px;font-size:17px}
+    .secret p{margin:0;color:#a8a8a8;font-size:12px;line-height:1.4}
+    .secret button{margin-top:12px;background:#221010;border:1px solid #55151e;border-radius:11px;padding:10px 13px;font-size:12px;font-weight:800}
+    .nav{position:fixed;z-index:20;left:0;right:0;bottom:0;padding:9px 12px calc(9px + var(--tg-safe-bottom));background:rgba(9,9,9,.92);backdrop-filter:blur(14px);border-top:1px solid #222}
+    .nav-inner{max-width:760px;margin:auto;display:grid;grid-template-columns:repeat(4,1fr);gap:5px}
+    .nav button{background:transparent;color:#777;padding:7px 4px;border-radius:12px;font-size:10px}
+    .nav button.active{background:#171717;color:white}
+    .nav .ico{font-size:19px;display:block;margin-bottom:2px}
+    .modal{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:40;display:none;align-items:flex-end}
+    .modal.open{display:flex}
+    .sheet{width:100%;max-height:88vh;overflow:auto;background:#111;border:1px solid #2a2a2a;border-bottom:0;border-radius:24px 24px 0 0;padding:14px 16px calc(18px + var(--tg-safe-bottom))}
+    .handle{width:42px;height:4px;background:#3a3a3a;border-radius:5px;margin:0 auto 15px}
+    .close{float:right;background:#242424;width:34px;height:34px;border-radius:10px}
+    .detail-pic{height:190px;border-radius:18px;margin:8px 0 16px}
+    .sheet h2{font-size:25px;margin:0 0 7px}
+    .sheet .large-desc{color:#aaa;line-height:1.5;font-size:13px}
+    .detail-row{display:flex;justify-content:space-between;align-items:center;margin:18px 0}
+    .bigprice{font-size:22px;font-weight:900}
+    .add{background:var(--red);border-radius:13px;padding:13px 18px;font-weight:900}
+    .qty{display:flex;align-items:center;gap:12px}
+    .qty button{width:36px;height:36px;border-radius:10px;background:#242424}
+    .cart-list{display:grid;gap:9px;margin:15px 0}
+    .cart-item{display:flex;justify-content:space-between;gap:10px;background:#181818;border:1px solid #262626;border-radius:14px;padding:12px}
+    .empty{padding:35px 10px;text-align:center;color:#777}
+    .checkout{width:100%;background:var(--red);border-radius:14px;padding:14px;font-weight:900;margin-top:10px}
+    .toast{position:fixed;z-index:60;left:50%;bottom:92px;transform:translateX(-50%) translateY(10px);background:#f3f3f3;color:#111;padding:11px 15px;border-radius:12px;font-size:12px;font-weight:800;opacity:0;pointer-events:none;transition:.2s;white-space:nowrap}
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+    @media(min-width:650px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.hero{min-height:280px}.hero-content{max-width:60%}}
+  </style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div><div class="brand">ТБИЛИ<span>.</span></div><div class="sub">coffee & strange drinks</div></div>
+    <button class="cart-btn" onclick="openCart()">🛒<span id="badge" class="badge" style="display:none">0</span></button>
+  </header>
+
+  <section class="hero">
+    <div class="hero-content">
+      <div class="eyebrow">HALLOWEEN 2026</div>
+      <h1>Добро пожаловать<br>на тёмную сторону.</h1>
+      <p>Кофе, bubble tea, десерты и напитки из других вселенных.</p>
+      <div class="season">11 SPECIAL DRINKS</div>
+    </div>
+  </section>
+
+  <div class="section-title"><h2>Категории</h2><span>выбери своё</span></div>
+  <div class="cats" id="cats"></div>
+
+  <section id="featuredSection">
+    <div class="section-title"><h2>🔥 Halloween Special</h2><span>ограниченная коллекция</span></div>
+    <div class="featured" id="featured"></div>
+  </section>
+
+  <section>
+    <div class="section-title"><h2 id="menuTitle">Меню</h2><span id="countLabel"></span></div>
+    <div class="grid" id="products"></div>
+  </section>
+
+  <section class="secret">
+    <h3>🔒 SECRET MENU</h3>
+    <p>Некоторые напитки нельзя найти в обычном меню. Возможно, ты знаешь код.</p>
+    <button onclick="secretCode()">Ввести код</button>
+  </section>
+</div>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <button class="active" onclick="scrollTopPage()"><span class="ico">⌂</span>Главная</button>
+    <button onclick="selectCat('coffee')"><span class="ico">☕</span>Кофе</button>
+    <button onclick="selectCat('special')"><span class="ico">🩸</span>Special</button>
+    <button onclick="openCart()"><span class="ico">🛒</span>Корзина</button>
+  </div>
+</nav>
+
+<div class="modal" id="productModal" onclick="if(event.target===this)closeModal()">
+  <div class="sheet">
+    <div class="handle"></div>
+    <button class="close" onclick="closeModal()">✕</button>
+    <div id="detail"></div>
+  </div>
+</div>
+
+<div class="modal" id="cartModal" onclick="if(event.target===this)closeModal()">
+  <div class="sheet">
+    <div class="handle"></div>
+    <button class="close" onclick="closeModal()">✕</button>
+    <h2>Корзина</h2>
+    <div id="cart"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const tg = window.Telegram?.WebApp;
+if(tg){ tg.ready(); tg.expand(); document.documentElement.style.setProperty('--tg-safe-top','env(safe-area-inset-top)'); }
+
+const products = [
+ {id:'espresso',cat:'coffee',name:'Эспрессо',price:150,vol:'30 мл',emoji:'☕',theme:'black',desc:'Плотный классический эспрессо.'},
+ {id:'double',cat:'coffee',name:'Двойной эспрессо',price:190,vol:'60 мл',emoji:'☕',theme:'black',desc:'Два шота для серьёзного настроя.'},
+ {id:'americano250',cat:'coffee',name:'Американо',price:190,vol:'250 мл',emoji:'☕',theme:'black',desc:'Эспрессо и горячая вода.'},
+ {id:'capp250',cat:'coffee',name:'Капучино',price:250,vol:'250 мл',emoji:'☕',theme:'gold',desc:'Эспрессо, молоко и воздушная пенка.'},
+ {id:'capp350',cat:'coffee',name:'Капучино',price:290,vol:'350 мл',emoji:'☕',theme:'gold',desc:'Большой капучино.'},
+ {id:'latte',cat:'coffee',name:'Латте',price:300,vol:'350 мл',emoji:'🥛',theme:'gold',desc:'Мягкий молочный кофе.'},
+ {id:'flat',cat:'coffee',name:'Флэт Уайт',price:280,vol:'200 мл',emoji:'☕',theme:'gold',desc:'Двойной эспрессо и шелковистое молоко.'},
+ {id:'raf',cat:'coffee',name:'Раф',price:330,vol:'350 мл',emoji:'☁️',theme:'gold',desc:'Кофе, сливки и ванильный характер.'},
+ {id:'mocha',cat:'coffee',name:'Мокка',price:340,vol:'350 мл',emoji:'🍫',theme:'gold',desc:'Кофе, молоко и шоколад.'},
+ {id:'cocoa',cat:'other',name:'Какао',price:280,vol:'350 мл',emoji:'🍫',theme:'gold',desc:'Горячий шоколадный уют.'},
+
+ {id:'icelatte',cat:'ice',name:'Ice Latte',price:320,vol:'450 мл',emoji:'🧊',theme:'black',desc:'Эспрессо, холодное молоко и лёд.'},
+ {id:'iceamericano',cat:'ice',name:'Ice Americano',price:240,vol:'450 мл',emoji:'🧊',theme:'black',desc:'Эспрессо, вода и много льда.'},
+ {id:'icevanilla',cat:'ice',name:'Ice Vanilla',price:340,vol:'450 мл',emoji:'🍦',theme:'gold',desc:'Ваниль, молоко, эспрессо и лёд.'},
+ {id:'icecaramel',cat:'ice',name:'Ice Caramel',price:340,vol:'450 мл',emoji:'🍮',theme:'gold',desc:'Карамель, молоко, эспрессо и лёд.'},
+ {id:'tonic',cat:'ice',name:'Espresso Tonic',price:320,vol:'400 мл',emoji:'⚡',theme:'black',desc:'Эспрессо, тоник, цитрус и лёд.'},
+ {id:'cherryespresso',cat:'ice',name:'Cherry Espresso',price:340,vol:'400 мл',emoji:'🍒',theme:'red',desc:'Вишня, эспрессо, тоник и лёд.'},
+
+ {id:'bubble-strawberry',cat:'bubble',name:'Strawberry Bubble Tea',price:350,vol:'500 мл',emoji:'🍓',theme:'red',desc:'Клубника, молочная основа и тапиока.'},
+ {id:'bubble-mango',cat:'bubble',name:'Mango Bubble Tea',price:350,vol:'500 мл',emoji:'🥭',theme:'gold',desc:'Манго, молочная основа и тапиока.'},
+ {id:'bubble-passion',cat:'bubble',name:'Passion Fruit',price:350,vol:'500 мл',emoji:'🟠',theme:'gold',desc:'Маракуйя, чайная основа и топпинг.'},
+ {id:'bubble-taro',cat:'bubble',name:'Taro',price:370,vol:'500 мл',emoji:'🟣',theme:'purple',desc:'Таро, молоко и тапиока.'},
+ {id:'bubble-blood',cat:'bubble',name:'Blood Berry',price:370,vol:'500 мл',emoji:'🩸',theme:'red',desc:'Ягодная основа, гранат и красные popping boba.'},
+
+ {id:'butterbeer',cat:'special',name:'Сливочное пиво',price:390,vol:'400 мл',emoji:'🧈',theme:'gold',desc:'Безалкогольная интерпретация сливочного пива с карамельной пенкой и специями.',tag:'MAGIC'},
+ {id:'negative',cat:'special',name:'Вторая отрицательная',price:350,vol:'400 мл',emoji:'🩸',theme:'red',desc:'Вишня, гранат, цитрус, тоник и лёд.',tag:'DARK'},
+ {id:'salvatore',cat:'special',name:'Бурбон Сальваторе',price:390,vol:'400 мл',emoji:'🥃',theme:'black',desc:'Безалкогольная bourbon-style интерпретация с вишнёво-ванильным характером.',tag:'NO ALCOHOL'},
+ {id:'nevermore',cat:'special',name:'Невермор',price:390,vol:'400 мл',emoji:'🖤',theme:'black',desc:'Шоколад, ваниль, сливочная пенка и тёмный визуальный характер.',tag:'DARK'},
+ {id:'trick',cat:'special',name:'Сладость или гадость',price:390,vol:'400 мл',emoji:'🍬',theme:'red',desc:'Сладкая ваниль и карамель — или кислая ягодная «гадость».',tag:'CHOOSE'},
+ {id:'central',cat:'special',name:'Central Perk',price:370,vol:'350 мл',emoji:'☕',theme:'gold',desc:'Эспрессо, шоколад, карамель и молочная пенка.',tag:'COFFEE'},
+ {id:'midnight',cat:'special',name:'Полуночное зелье',price:370,vol:'450 мл',emoji:'🌙',theme:'purple',desc:'Черника, ваниль, лаванда и молочная основа.',tag:'MAGIC'},
+ {id:'dino',cat:'special',name:'Пирог Дино',price:390,vol:'450 мл',emoji:'🥧',theme:'gold',desc:'Яблоко, корица, ваниль, молочная основа и печенье.',tag:'AUTUMN'},
+ {id:'luke',cat:'special',name:'Осень у Люка',price:370,vol:'350 мл',emoji:'🍂',theme:'gold',desc:'Эспрессо, тыква, корица, карамель и молоко.',tag:'AUTUMN'},
+ {id:'eleven',cat:'special',name:'Вафли Одиннадцать',price:420,vol:'450 мл',emoji:'🧇',theme:'red',desc:'Клубнично-ванильный милкшейк со сливками и мини-вафлей.',tag:'SPECIAL'},
+ {id:'double-r',cat:'special',name:'Двойной R',price:370,vol:'350 мл',emoji:'🌲',theme:'red',desc:'Кофе, вишня, шоколад и молоко.',tag:'MYSTERY'},
+
+ {id:'cheesecake',cat:'dessert',name:'Чизкейк',price:320,vol:'1 порция',emoji:'🍰',theme:'black',desc:'Классический сливочный десерт.'},
+ {id:'brownie',cat:'dessert',name:'Шоколадный брауни',price:250,vol:'1 порция',emoji:'🍫',theme:'black',desc:'Плотный шоколадный десерт.'},
+ {id:'medovik',cat:'dessert',name:'Медовик',price:290,vol:'1 порция',emoji:'🍯',theme:'gold',desc:'Тонкие коржи и нежный крем.'},
+ {id:'croissant',cat:'dessert',name:'Круассан классический',price:220,vol:'1 шт.',emoji:'🥐',theme:'gold',desc:'Слоёный, хрустящий, сливочный.'},
+ {id:'choccroissant',cat:'dessert',name:'Круассан шоколадный',price:270,vol:'1 шт.',emoji:'🥐',theme:'black',desc:'Круассан с шоколадной начинкой.'},
+ {id:'pistachio',cat:'dessert',name:'Фисташковый десерт',price:350,vol:'1 порция',emoji:'💚',theme:'purple',desc:'Фисташковый крем и хрустящий слой.'},
+ {id:'tart',cat:'dessert',name:'Яблочный тарт',price:320,vol:'1 порция',emoji:'🍎',theme:'gold',desc:'Яблоко, корица и хрустящая основа.'},
+ {id:'blackvelvet',cat:'dessert',name:'Black Velvet',price:390,vol:'1 порция',emoji:'🖤',theme:'red',desc:'Шоколадный бисквит, сливочный крем и вишня.',tag:'HALLOWEEN'},
+
+ {id:'minikhach',cat:'bakery',name:'Мини-хачапури + кофе',price:490,vol:'сет',emoji:'🧀',theme:'gold',desc:'Тёплая выпечка + классический кофе.'},
+ {id:'adjarskymini',cat:'bakery',name:'Mini хачапури по-аджарски + капучино',price:550,vol:'сет',emoji:'🍳',theme:'gold',desc:'Мини-аджарский + капучино. Связка с Тбилисо.'},
+ {id:'croissantset',cat:'bakery',name:'Круассан + капучино',price:420,vol:'сет',emoji:'🥐',theme:'gold',desc:'Классическая кофейная пара.'},
+ {id:'cheeseset',cat:'bakery',name:'Сырная слойка + кофе',price:390,vol:'сет',emoji:'🧀',theme:'gold',desc:'Тёплая сырная выпечка и кофе.'},
+
+ {id:'lemonade-strawberry',cat:'other',name:'Лимонад клубника-базилик',price:300,vol:'450 мл',emoji:'🍓',theme:'red',desc:'Освежающий ягодный лимонад.'},
+ {id:'lemonade-passion',cat:'other',name:'Лимонад маракуйя',price:320,vol:'450 мл',emoji:'🥭',theme:'gold',desc:'Маракуйя, цитрус и лёд.'},
+ {id:'lemonade-cherry',cat:'other',name:'Лимонад вишня-гранат',price:320,vol:'450 мл',emoji:'🍒',theme:'red',desc:'Яркий кисло-сладкий ягодный вкус.'},
+ {id:'matcha',cat:'other',name:'Матча латте',price:350,vol:'350 мл',emoji:'🍵',theme:'purple',desc:'Матча и молоко.'},
+ {id:'hotchoc',cat:'other',name:'Горячий шоколад',price:320,vol:'300 мл',emoji:'🍫',theme:'black',desc:'Насыщенный горячий шоколад.'},
+ {id:'tea',cat:'other',name:'Чай',price:220,vol:'400 мл',emoji:'🫖',theme:'gold',desc:'Выбор чая уточняйте у бариста.'}
+];
+
+const cats = [
+ ['all','Все'],['coffee','☕ Кофе'],['special','🩸 Special'],['ice','🧊 Ice'],
+ ['bubble','🧋 Bubble Tea'],['dessert','🍰 Десерты'],['bakery','🥐 Выпечка'],['other','🥤 Другое']
+];
+let currentCat='all', cart={};
+
+function productCard(p){
+  return `<article class="product" onclick="openProduct('${p.id}')">
+    <div class="pic ${p.theme}"><span class="tag">${p.tag||p.vol}</span><span class="emoji">${p.emoji}</span></div>
+    <div class="pbody"><div class="pname">${p.name}</div><div class="desc">${p.desc}</div>
+      <div class="bottom"><span class="price">${p.price} ₽</span><span class="plus">+</span></div>
+    </div>
+  </article>`;
+}
+function renderCats(){
+  document.getElementById('cats').innerHTML=cats.map(([id,label])=>`<button class="cat ${id===currentCat?'active':''}" onclick="selectCat('${id}')">${label}</button>`).join('');
+}
+function render(){
+  renderCats();
+  const list=currentCat==='all'?products:products.filter(p=>p.cat===currentCat);
+  document.getElementById('products').innerHTML=list.map(productCard).join('');
+  document.getElementById('countLabel').textContent=list.length+' позиций';
+  document.getElementById('menuTitle').textContent=currentCat==='all'?'Меню':cats.find(x=>x[0]===currentCat)[1].replace(/^\\S+ /,'');
+  document.getElementById('featuredSection').style.display=currentCat==='all'?'block':'none';
+}
+function renderFeatured(){
+  const ids=['butterbeer','negative','nevermore','eleven','luke','central'];
+  document.getElementById('featured').innerHTML=ids.map(id=>{
+    const p=products.find(x=>x.id===id);
+    return `<article class="feat" onclick="openProduct('${p.id}')"><div class="pic ${p.theme}"><span class="tag">${p.tag}</span><span class="emoji">${p.emoji}</span></div><div class="pbody"><div class="pname">${p.name}</div><div class="desc">${p.desc}</div><div class="bottom"><span class="price">${p.price} ₽</span><span class="plus">+</span></div></div></article>`;
+  }).join('');
+}
+function selectCat(cat){currentCat=cat;render();window.scrollTo({top:250,behavior:'smooth'});}
+function scrollTopPage(){window.scrollTo({top:0,behavior:'smooth'});}
+function openProduct(id){
+  const p=products.find(x=>x.id===id);
+  document.getElementById('detail').innerHTML=`<div class="detail-pic pic ${p.theme}"><span class="tag">${p.tag||p.vol}</span><span class="emoji">${p.emoji}</span></div>
+    <h2>${p.name}</h2><div class="large-desc">${p.desc}</div>
+    <div class="detail-row"><span class="bigprice">${p.price} ₽</span><button class="add" onclick="addToCart('${p.id}');closeModal()">Добавить в корзину</button></div>`;
+  document.getElementById('productModal').classList.add('open');
+}
+function closeModal(){document.querySelectorAll('.modal').forEach(m=>m.classList.remove('open'))}
+function addToCart(id){cart[id]=(cart[id]||0)+1;updateBadge();toast('Добавлено в корзину');}
+function updateBadge(){
+  const n=Object.values(cart).reduce((a,b)=>a+b,0), b=document.getElementById('badge');
+  b.textContent=n;b.style.display=n?'grid':'none';
+}
+function openCart(){
+  const entries=Object.entries(cart);
+  let html='';
+  if(!entries.length) html='<div class="empty">Корзина пока пустая.<br>Выбери что-нибудь из меню 👀</div>';
+  else{
+    let total=0;
+    html='<div class="cart-list">';
+    for(const [id,q] of entries){const p=products.find(x=>x.id===id);total+=p.price*q;
+      html+=`<div class="cart-item"><div><b>${p.name}</b><div style="color:#888;font-size:11px;margin-top:3px">${p.price} ₽ × ${q}</div></div><div class="qty"><button onclick="changeQty('${id}',-1)">−</button><b>${q}</b><button onclick="changeQty('${id}',1)">+</button></div></div>`;
+    }
+    html+=`</div><div style="display:flex;justify-content:space-between;font-weight:900;font-size:18px"><span>Итого</span><span>${total} ₽</span></div>
+      <button class="checkout" onclick="demoCheckout()">Оформить заказ</button>`;
+  }
+  document.getElementById('cart').innerHTML=html;
+  document.getElementById('cartModal').classList.add('open');
+}
+function changeQty(id,d){cart[id]=(cart[id]||0)+d;if(cart[id]<=0)delete cart[id];updateBadge();openCart();}
+function demoCheckout(){
+  const total=Object.entries(cart).reduce((s,[id,q])=>s+products.find(p=>p.id===id).price*q,0);
+  if(tg && tg.showPopup) tg.showPopup({title:'Заказ',message:`Сумма заказа: ${total} ₽\\n\\nЭто пока демонстрационная корзина. Подключение реального заказа сделаем после выбора кассы/способа оплаты.`,buttons:[{type:'ok'}]});
+  else alert(`Сумма заказа: ${total} ₽\\nЭто пока демонстрационная корзина.`);
+}
+function secretCode(){
+  const code=prompt('Введите секретный код');
+  if(code && code.trim().toUpperCase()==='TBILISO'){
+    toast('🔓 Секретное меню открылось');
+    setTimeout(()=>selectCat('special'),350);
+  }else if(code) toast('Код не подошёл 👀');
+}
+function toast(t){const el=document.getElementById('toast');el.textContent=t;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),1800)}
+renderFeatured();render();
+</script>
+</body>
+</html>
