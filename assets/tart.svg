@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
+<defs><radialGradient id="bg"><stop offset="0" stop-color="#b36b20" stop-opacity=".9"/><stop offset=".55" stop-color="#2a1206"/><stop offset="1" stop-color="#080808"/></radialGradient><linearGradient id="liquid" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#b36b20"/><stop offset="1" stop-color="#2a1206"/></linearGradient><filter id="shadow"><feDropShadow dx="0" dy="14" stdDeviation="12" flood-color="#000" flood-opacity=".65"/></filter></defs>
+<rect width="400" height="400" rx="28" fill="url(#bg)"/>
+<circle cx="320" cy="70" r="90" fill="#b36b20" opacity=".14"/>
+<circle cx="75" cy="330" r="70" fill="#ffd18a" opacity=".06"/>
+<g filter="url(#shadow)"><ellipse cx="200" cy="315" rx="105" ry="17" fill="#000" opacity=".45"/><circle cx="200" cy="205" r="100" fill="#9a5420"/><circle cx="200" cy="195" r="80" fill="#e2a044"/><path d="M145 160 Q200 210 255 160 M135 205 Q200 250 265 205" fill="none" stroke="#fff0bd" stroke-width="12" opacity=".65"/><circle cx="150" cy="175" r="9" fill="#b51d27"/><circle cx="245" cy="175" r="9" fill="#b51d27"/></g>
+<text x="24" y="370" font-family="Arial, sans-serif" font-size="12" letter-spacing="3" fill="#fff" opacity=".55">TBILI • COFFEE</text>
+</svg>
