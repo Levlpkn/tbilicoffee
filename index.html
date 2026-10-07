@@ -47,8 +47,8 @@
     .product-img{width:100%;height:100%;object-fit:cover;display:block}.detail-pic .product-img{border-radius:18px}.feat .product-img{width:100%;height:100%;object-fit:cover}
     .tag{position:absolute;left:9px;top:9px;background:rgba(0,0,0,.65);border:1px solid rgba(255,255,255,.12);padding:5px 8px;border-radius:8px;font-size:9px;font-weight:800;letter-spacing:.08em}
     .pbody{padding:12px}
-    .pname{font-size:15px;font-weight:850;margin-bottom:5px;line-height:1.2;min-height:18px}
-    .desc{font-size:10px;color:var(--muted);line-height:1.2;height:16px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+    .pname{display:block;font-size:16px;font-weight:900;color:#f5f5f5;margin:0 0 6px;line-height:1.22;min-height:0;letter-spacing:-.01em}.pcomposition{display:block;font-size:10px;color:#a9a9a9;line-height:1.35;min-height:27px;max-height:40px;overflow:hidden}
+    .desc{font-size:10px;color:var(--muted);line-height:1.2;min-height:16px}
     .special-mini{color:#ff5362;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.03em}
     .bottom{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
     .price{font-size:15px;font-weight:900}
@@ -284,6 +284,7 @@ function cardDesc(p){
   return ref ? `<span class="special-mini">${ref.replace(/^🎬\s*/,'')}</span>` : '';
 }
 function productCard(p){
+  const composition = p.desc.replace(/^Состав:\s*/,'');
   return `<article class="product" onclick="openProduct('${p.id}')">
     <div class="pic ${p.theme}">
       <span class="tag">${p.tag||p.vol}</span>
@@ -291,7 +292,7 @@ function productCard(p){
     </div>
     <div class="pbody">
       <div class="pname">${p.name}</div>
-      <div class="desc">${cardDesc(p)}</div>
+      <div class="pcomposition">Состав: ${composition}</div>
       <div class="bottom">
         <div class="price">${p.price} ₽</div>
         <div class="plus">+</div>
@@ -327,7 +328,7 @@ function renderFeatured(){
   const ids=['butterbeer','negative','nevermore','eleven','luke','central'];
   document.getElementById('featured').innerHTML=ids.map(id=>{
     const p=products.find(x=>x.id===id);
-    return `<article class="feat" onclick="openProduct('${p.id}')"><div class="pic ${p.theme}"><span class="tag">${p.tag}</span><img class="product-img" src="assets/${p.id}.svg" alt="${p.name}" loading="lazy"></div><div class="pbody"><div class="pname">${p.name}</div><div class="desc">${descFor(p)}</div><div class="bottom"><span class="price">${p.price} ₽</span><span class="plus">+</span></div></div></article>`;
+    return `<article class="feat" onclick="openProduct('${p.id}')"><div class="pic ${p.theme}"><span class="tag">${p.tag}</span><img class="product-img" src="assets/${p.id}.svg" alt="${p.name}" loading="lazy"></div><div class="pbody"><div class="pname">${p.name}</div><div class="pcomposition">Состав: ${p.desc.replace(/^Состав:\s*/,)}</div><div class="bottom"><span class="price">${p.price} ₽</span><span class="plus">+</span></div></div></article>`;
   }).join('');
 }
 function selectCat(cat){currentCat=cat;render();window.scrollTo({top:250,behavior:'smooth'});}
@@ -335,7 +336,7 @@ function scrollTopPage(){window.scrollTo({top:0,behavior:'smooth'});}
 function openProduct(id){
   const p=products.find(x=>x.id===id);
   document.getElementById('detail').innerHTML=`<div class="detail-pic pic ${p.theme}"><span class="tag">${p.tag||p.vol}</span><img class="product-img" src="assets/${p.id}.svg" alt="${p.name}"></div>
-    <h2>${p.name}</h2><div class="large-desc">${descFor(p)}</div>
+    <h2>${p.name}</h2><div class="large-desc"><b>Состав:</b> ${p.desc.replace(/^Состав:\s*/,)}</div>
     <div class="detail-row"><span class="bigprice">${p.price} ₽</span><button class="add" onclick="addToCart('${p.id}');closeModal()">Добавить в корзину</button></div>`;
   document.getElementById('productModal').classList.add('open');
 }
