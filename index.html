@@ -47,8 +47,8 @@
     .product-img{width:100%;height:100%;object-fit:cover;display:block}.detail-pic .product-img{border-radius:18px}.feat .product-img{width:100%;height:100%;object-fit:cover}
     .tag{position:absolute;left:9px;top:9px;background:rgba(0,0,0,.65);border:1px solid rgba(255,255,255,.12);padding:5px 8px;border-radius:8px;font-size:9px;font-weight:800;letter-spacing:.08em}
     .pbody{padding:12px}
-    .pname{font-size:15px;font-weight:850;margin-bottom:5px}
-    .desc{font-size:11px;color:var(--muted);line-height:1.35;min-height:30px}
+    .pname{font-size:15px;font-weight:850;margin-bottom:4px;line-height:1.2}
+    .desc{font-size:10px;color:var(--muted);line-height:1.2;height:16px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}.card-ref{color:#ff5362;font-size:9px;font-weight:900;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .bottom{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
     .price{font-size:15px;font-weight:900}
     .plus{width:31px;height:31px;border-radius:10px;background:#242424;display:grid;place-items:center;font-size:20px}
@@ -274,14 +274,20 @@ const cats = [
 ];
 let currentCat='all', cart={};
 
-function descFor(p){
+function detailDesc(p){
   const ref=specialRefs[p.id];
   return `Состав: ${p.desc.replace(/^Состав:\s*/,'')}${ref?`<div class="special-ref">${ref}</div>`:''}`;
+}
+function cardRef(p){
+  const ref=specialRefs[p.id];
+  if(!ref) return '';
+  const m=ref.match(/«([^»]+)»/);
+  return m ? `<div class="card-ref">ПО МОТИВАМ «${m[1]}»</div>` : `<div class="card-ref">SPECIAL</div>`;
 }
 function productCard(p){
   return `<article class="product" onclick="openProduct('${p.id}')">
     <div class="pic ${p.theme}"><span class="tag">${p.tag||p.vol}</span><img class="product-img" src="assets/${p.id}.svg" alt="${p.name}" loading="lazy"></div>
-    <div class="pbody"><div class="pname">${p.name}</div><div class="desc">${descFor(p)}</div>
+    <div class="pbody"><div class="pname">${p.name}</div><div class="desc">${cardRef(p)}</div>
       <div class="bottom"><span class="price">${p.price} ₽</span><span class="plus">+</span></div>
     </div>
   </article>`;
@@ -314,7 +320,7 @@ function renderFeatured(){
   const ids=['butterbeer','negative','nevermore','eleven','luke','central'];
   document.getElementById('featured').innerHTML=ids.map(id=>{
     const p=products.find(x=>x.id===id);
-    return `<article class="feat" onclick="openProduct('${p.id}')"><div class="pic ${p.theme}"><span class="tag">${p.tag}</span><img class="product-img" src="assets/${p.id}.svg" alt="${p.name}" loading="lazy"></div><div class="pbody"><div class="pname">${p.name}</div><div class="desc">${descFor(p)}</div><div class="bottom"><span class="price">${p.price} ₽</span><span class="plus">+</span></div></div></article>`;
+    return `<article class="feat" onclick="openProduct('${p.id}')"><div class="pic ${p.theme}"><span class="tag">${p.tag}</span><img class="product-img" src="assets/${p.id}.svg" alt="${p.name}" loading="lazy"></div><div class="pbody"><div class="pname">${p.name}</div><div class="desc">${detailDesc(p)}</div><div class="bottom"><span class="price">${p.price} ₽</span><span class="plus">+</span></div></div></article>`;
   }).join('');
 }
 function selectCat(cat){currentCat=cat;render();window.scrollTo({top:250,behavior:'smooth'});}
@@ -322,7 +328,7 @@ function scrollTopPage(){window.scrollTo({top:0,behavior:'smooth'});}
 function openProduct(id){
   const p=products.find(x=>x.id===id);
   document.getElementById('detail').innerHTML=`<div class="detail-pic pic ${p.theme}"><span class="tag">${p.tag||p.vol}</span><img class="product-img" src="assets/${p.id}.svg" alt="${p.name}"></div>
-    <h2>${p.name}</h2><div class="large-desc">${descFor(p)}</div>
+    <h2>${p.name}</h2><div class="large-desc">${detailDesc(p)}</div>
     <div class="detail-row"><span class="bigprice">${p.price} ₽</span><button class="add" onclick="addToCart('${p.id}');closeModal()">Добавить в корзину</button></div>`;
   document.getElementById('productModal').classList.add('open');
 }
